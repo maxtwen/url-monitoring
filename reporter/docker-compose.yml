@@ -1,0 +1,10 @@
+version: '2'
+services:
+  reporter-celery-worker:
+    command: celery -A tasks worker
+  reporter-celery-beat:
+    command: celery -A tasks beat --scheduler scheduler.RestApiScheduler -l DEBUG
+  reporter-rabbit:
+    image: rabbitmq
+
+

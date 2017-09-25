@@ -1,0 +1,13 @@
+version: '2'
+services:
+  app-rest-api:
+    ports:
+      - "5002:80"
+    links:
+      - "app-database:mongo"
+    environment:
+      - MONGO_HOST=mongo
+  app-database:
+    image: mongo
+
+

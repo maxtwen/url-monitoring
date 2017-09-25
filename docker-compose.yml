@@ -1,0 +1,46 @@
+version: '2'
+services:
+  worker-celery-beat:
+    build: ./worker
+    links:
+      - "worker-rabbit:rabbit"
+      - "app-rest-api:app-rest-api"
+      - "db-rest-api:db-rest-api"
+    environment:
+      - CELERY_REST_SCHEDULER_TASKS_API_HOST=http://app-rest-api
+      - RESULT_API_HOST=http://db-rest-api
+      - BROKER_URL=pyamqp://guest@worker-rabbit//
+  worker-celery-worker:
+    build: ./worker
+    links:
+      - "worker-rabbit:rabbit"
+      - "app-rest-api:app-rest-api"
+      - "db-rest-api:db-rest-api"
+    environment:
+      - CELERY_REST_SCHEDULER_TASKS_API_HOST=http://app-rest-api
+      - RESULT_API_HOST=http://db-rest-api
+      - BROKER_URL=pyamqp://guest@worker-rabbit//
+  reporter-celery-beat:
+    build: ./reporter
+    links:
+      - "worker-rabbit:rabbit"
+      - "app-rest-api:app-rest-api"
+      - "db-rest-api:db-rest-api"
+    environment:
+      - CELERY_REST_SCHEDULER_TASKS_API_HOST=http://app-rest-api
+      - RESULT_API_HOST=http://db-rest-api
+      - BROKER_URL=pyamqp://guest@worker-rabbit//
+  reporter-celery-worker:
+    build: ./reporter
+    links:
+      - "worker-rabbit:rabbit"
+      - "app-rest-api:app-rest-api"
+      - "db-rest-api:db-rest-api"
+    environment:
+      - CELERY_REST_SCHEDULER_TASKS_API_HOST=http://app-rest-api
+      - RESULT_API_HOST=http://db-rest-api
+      - BROKER_URL=pyamqp://guest@worker-rabbit//
+  app-rest-api:
+    build: ./app
+  db-rest-api:
+    build: ./db

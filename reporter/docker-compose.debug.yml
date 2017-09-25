@@ -1,0 +1,8 @@
+version: '2'
+services:
+  reporter-celery-beat:
+    build: .
+  reporter-celery-worker:
+    build: .
+
+
