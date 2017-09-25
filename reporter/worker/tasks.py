@@ -17,6 +17,6 @@ DB_API_HOST = urllib.parse.urljoin(current_app.conf.DB_API_HOST, '/api/v1/latest
 
 @app.task
 def report(url):
-    page = json.loads(requests.get('http://{}?url={}'.format(DB_API_HOST, url)).content)
-    logger.info((page['url'], page['page']))
+    page = json.loads(requests.get('{}?url={}'.format(DB_API_HOST, url)).content)
+    logger.info(page)
 

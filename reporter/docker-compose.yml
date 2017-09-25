@@ -2,8 +2,16 @@ version: '2'
 services:
   reporter-celery-worker:
     command: celery -A tasks worker
+    links:
+    - "reporter-rabbit:rabbit"
+    environment:
+      - BROKER_URL=pyamqp://guest@rabbit//
   reporter-celery-beat:
     command: celery -A tasks beat --scheduler scheduler.RestApiScheduler -l DEBUG
+    links:
+    - "reporter-rabbit:rabbit"
+    environment:
+      - BROKER_URL=pyamqp://guest@rabbit//
   reporter-rabbit:
     image: rabbitmq
 
